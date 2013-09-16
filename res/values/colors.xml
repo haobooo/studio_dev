@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<resources>
+    <!-- Window related -->
+    <color name="windown_background">#FFF6F6F6</color>
+    <color name="transparent_background_black">#33000000</color>
+    
+    <!-- Title related -->
+    <color name="title_background_color">#FFFFFFFF</color>
+    <color name="title_delimiter_color">#FFD5D5D5</color>
+    <color name="title_text_color">#FFFC5A5E</color>
+    
+    <!-- Tab related -->
+    <color name="tab_text_color">#FF989898</color>
+    <color name="tab_text_selected_color">#FFFFFFFF</color>
+    <color name="tab_background_color">#FFFDFDFD</color>
+    <color name="tab_background_selected_color">#FFFF7600</color>
+    
+    <!-- GridView related -->
+    <color name="gridview_delimitor_color">#FFDDDDDD</color>
+    <color name="gridview_content_color">#FF333333</color>
+    <color name="gridview_description_color">#FF999999</color>
+    
+</resources>

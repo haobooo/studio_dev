@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">一切皆浮云</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string name="loading_data">正在加载数据...</string>
+    
+    <string name="tab_home">主页</string>
+    <string name="tab_post">往期</string>
+    <string name="tab_bookmark">书签</string>
+    <string name="tab_more">更多</string>
+    
+    <string name="download_finished_with_file_already_exists">图片已下载</string>
+    <string name="download_finished">图片已下载到下面的路径下：\n %1$s</string>
+    <string name="download_failed">下载失败，请重试</string>
+    
+</resources>
