@@ -65,9 +65,19 @@ public class PortalActivity extends BaseTabActivity {
 		tabHost.addTab(tabHost.newTabSpec("BookmarkActivity")
 				.setIndicator(LayoutInflater.from(this).inflate(R.layout.tab_indicator_bookmark, null))
 				.setContent(new Intent(this, BookmarkActivity.class)));
+		
+		Bundle extras = new Bundle();
+		extras.putIntArray("counts", new int[]{1,2,3,4,5});
+		extras.putStringArray("names", new String[]{"新浪", "搜狐", "网易", "百度", "腾讯"});
+		extras.putBooleanArray("showIfEmpty", new boolean[] {true, true, true, true, true});
+		extras.putBooleanArray("headers", new boolean[] {false, false, false, false, false});
+		extras.putIntArray("delays", new int[]{100, 200, 300, 400, 500});
+		
+		Intent intent = new Intent(this, PinnedHeaderListDemoActivity.class);
+		intent.putExtras(extras);
 		tabHost.addTab(tabHost.newTabSpec("MoreActivity")
 				.setIndicator(LayoutInflater.from(this).inflate(R.layout.tab_indicator_more, null))
-				.setContent(new Intent(this, MoreActivity.class)));
+				.setContent(intent));
 		
 	}
 }

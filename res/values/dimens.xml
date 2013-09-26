@@ -7,5 +7,7 @@
     <dimen name="tab_height">48dip</dimen>
     <dimen name="tab_indicator_text_size">10sp</dimen>
     
+    <!-- Height of list sections (A, B, C) that show the first character of the contacts -->
+    <dimen name="list_section_height">25dip</dimen>
     
 </resources>
