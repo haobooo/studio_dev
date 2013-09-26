@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.pipi.studio.dev.R;
 import com.pipi.studio.dev.common.Constants;
 import com.pipi.studio.dev.common.MyApplication;
 
@@ -28,7 +29,6 @@ import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Images.ImageColumns;
 import android.util.Log;
 import android.widget.Toast;
-import cn.azsy.android.bjly_en.R;
 
 /**
  * 异步图片下载器

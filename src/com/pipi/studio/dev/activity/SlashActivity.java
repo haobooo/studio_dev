@@ -2,7 +2,7 @@ package com.pipi.studio.dev.activity;
 
 import java.io.IOException;
 
-import cn.azsy.android.bjly_en.R;
+import com.pipi.studio.dev.R;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,9 +11,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.view.Menu;
-import android.view.View;
 import android.widget.ImageView;
 
 public class SlashActivity extends Activity {
@@ -41,7 +38,7 @@ public class SlashActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		
-		mHandler.sendEmptyMessageDelayed(0, 5000);
+		mHandler.sendEmptyMessageDelayed(0, 500);
 	}
 	
 	private void buildSlash() {

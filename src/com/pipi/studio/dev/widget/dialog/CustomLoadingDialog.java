@@ -1,15 +1,12 @@
 package com.pipi.studio.dev.widget.dialog;
 
-
-
 import java.util.concurrent.TimeUnit;
 
+import com.pipi.studio.dev.R;
 import com.pipi.studio.dev.common.Constants;
 import com.pipi.studio.dev.net.DefaultThreadPool;
 import com.pipi.studio.dev.util.LogUtil;
 import com.pipi.studio.dev.util.StringUtil;
-
-import cn.azsy.android.bjly_en.R;
 
 import android.app.Dialog;
 import android.content.Context;
