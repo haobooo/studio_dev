@@ -1,8 +1,12 @@
 package com.pipi.studio.dev.activity;
 
+import com.pipi.studio.dev.R;
 import com.pipi.studio.dev.base.BaseActivity;
+import com.pipi.studio.dev.widget.SlideLeftableView;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.TextView;
 
 
@@ -12,8 +16,14 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		TextView view = new TextView(this);
-		view.setText("MainActivity");
+		SlideLeftableView view = new SlideLeftableView(this);
+		
+		TextView mainView = new TextView(this);
+		mainView.setText(this.getString(R.string.app_name));
+		
+		View additionalView = LayoutInflater.from(this).inflate(R.layout.additional_layout, null);
+		
+		view.setViews(mainView, additionalView);
 		setContentView(view);
 	}
 }

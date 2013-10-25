@@ -3,6 +3,7 @@ package com.pipi.studio.dev.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pipi.studio.dev.R;
 import com.pipi.studio.dev.common.Constants;
 import com.pipi.studio.dev.net.AsyncHttpGet;
 import com.pipi.studio.dev.net.AsyncHttpPost;
@@ -21,10 +22,16 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class BaseActivity extends FragmentActivity implements ThreadCallBack{
 	private static final String TAG = BaseActivity.class.getSimpleName();
+	
+	public static final int TITLE_LEFT_BUTTON = 1;
+	public static final int TITLE_RIGHT_BUTTON = 2;
+	
 	/**
 	 * 当前activity所持有的所有请求
 	 */
@@ -92,6 +99,57 @@ public class BaseActivity extends FragmentActivity implements ThreadCallBack{
 		}
 	}
 
+	/**
+	 *  The title's left button click listener.
+	 */
+	public void onTitleLeftButton(View view) {
+		finish();
+	}
+	
+	/**
+	 *  The title's right button click listener.
+	 */
+	public void onTitleRightButton(View view) {
+		showToast("You should override the onTitleRightButton() function in your activity.");
+	}
+	
+	/**
+	 * Set the title's left or right button's background.
+	 * @param type should be {@link #TITLE_LEFT_BUTTON} or {@link #TITLE_RIGHT_BUTTON}
+	 * @param resId
+	 */
+	public void setTitleButtonBackground(int type, int resId) {
+		ImageView view = null;
+		// more safe
+		if (type == TITLE_LEFT_BUTTON) {
+			view = (ImageView) findViewById(R.id.title_left_button);
+		} else if (type == TITLE_RIGHT_BUTTON) {
+			view = (ImageView) findViewById(R.id.title_right_button);
+		}
+		
+		if (view != null) {
+			view.setImageResource(resId);
+			view.setVisibility(View.VISIBLE);
+		}
+	}
+	
+	public void setTitle(CharSequence title) {
+		TextView titleView = (TextView) findViewById(R.id.title_content);
+		if (titleView != null) {
+			titleView.setText(title);
+		}
+	}
+	
+	public void hideTitleButton(int type) {
+		if ((type & TITLE_LEFT_BUTTON) != 0) {
+			findViewById(R.id.title_left_button).setVisibility(View.GONE);
+		}
+		
+		if ((type & TITLE_RIGHT_BUTTON) != 0) {
+			findViewById(R.id.title_right_button).setVisibility(View.GONE);
+		}
+	}
+	
 	/**
 	 *  The Back button's click listener.
 	 */

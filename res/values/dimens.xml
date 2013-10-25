@@ -10,4 +10,14 @@
     <!-- Height of list sections (A, B, C) that show the first character of the contacts -->
     <dimen name="list_section_height">25dip</dimen>
     
+    <!-- Title related -->
+    <dimen name="title_height">44dp</dimen>
+    <dimen name="title_left_padding">8dp</dimen>
+    <dimen name="title_right_padding">8dp</dimen>
+    <dimen name="title_icon_width">32dp</dimen>
+    <dimen name="title_icon_height">32dp</dimen>
+    
+    <!-- List related -->
+    <dimen name="list_item_height">100dip</dimen>
+    
 </resources>
