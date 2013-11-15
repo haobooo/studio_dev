@@ -16,4 +16,6 @@
     <string name="download_finished">图片已下载到下面的路径下：\n %1$s</string>
     <string name="download_failed">下载失败，请重试</string>
     
+    <string name="delete">delete</string>
+    <string name="quotation">不管你能做什么，或者期望自己能做什么，现在就开始做。勇敢可以给人智慧、力量和神奇。现在就开始做吧。------歌德</string>
 </resources>

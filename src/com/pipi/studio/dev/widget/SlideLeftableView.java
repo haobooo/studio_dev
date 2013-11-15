@@ -1,47 +1,67 @@
 package com.pipi.studio.dev.widget;
 
 
+
+import com.pipi.studio.dev.R;
 import com.pipi.studio.dev.util.LogUtil;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.MeasureSpec;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 public class SlideLeftableView extends LinearLayout {
 	private static final String TAG = "SlideLeftableView";
 	
+	private static final int mThreshold = 30;
+	
 	private GestureDetector mDetector;
 	
-	private View mainView;
-	private View additionalView;
+	private View baseInfoView;
+	private View deleteView;
 	
+	private float xDistance, yDistance, xLast, yLast, originX, originY;
 	private int mWidth;
 	
 	private OnTapUpListener mOnTapUpListener;
+	private OnPreAndPostListener mOnPreAndPostListener;
 	private ExtraData mExtraData;
 	
 	public SlideLeftableView(Context context) {
-		this(context, null);
+		super(context);
+		
+		init(context);
 	}
 	
 	public SlideLeftableView(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
+		super(context, attrs);
+		
+		init(context);
 	}
 	
 	public SlideLeftableView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		
-		setOrientation(HORIZONTAL);
-		
-		mDetector = new GestureDetector(context, new GestureListener());
+		init(context);
 	}
 	
 	public void setOnTapUpListener(OnTapUpListener listener) {
 		mOnTapUpListener = listener;
+	}
+	
+	private void init (Context context) {
+		mDetector = new GestureDetector(context, new GestureListener());
+	}
+	
+	public void setOnPreAndPostListener(OnPreAndPostListener listener) {
+		mOnPreAndPostListener = listener;
 	}
 	
 	public void setExtraData(ExtraData data) {
@@ -52,35 +72,31 @@ public class SlideLeftableView extends LinearLayout {
 		scrollTo(0, getScrollY());
 	}
 	
-	public void setViews(View main, View additional) {
-		if (mainView != null) {
-			this.removeView(mainView);
-		}
-		mainView = main;
-		addView(mainView);
+	@Override
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		super.onLayout(changed, left, top, right, bottom);
 		
-		if (additionalView != null) {
-			this.removeView(additionalView);
-		}
-		additionalView = additional;
-		addView(additionalView);
+		if (LogUtil.IS_LOG) LogUtil.d(TAG, "[onLayout] left=" + left + ", top=" + top + ", right=" + right + ", bottom=" + bottom);
+		baseInfoView.layout(left, top, right, bottom);
+		
+		// Get deleteView's width
+		deleteView.measure(0, MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
+		mWidth = deleteView.getMeasuredWidth();
+		if (LogUtil.IS_LOG) LogUtil.d(TAG, "[onLayout] mWidht=" + mWidth);
+		deleteView.layout(right, top, right + mWidth, bottom);
+		
+		super.onLayout(changed, left, top, right, bottom);
+		
 	}
 	
 	@Override
-	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-		if (LogUtil.IS_LOG) LogUtil.d(TAG, "[onLayout] left=" + left + ", top=" + top + ", right=" + right + ", bottom=" + bottom);
+	protected void onFinishInflate() {
+		super.onFinishInflate();
 		
-		final int width = right - left;
-		final int height = bottom - top;
+		baseInfoView = findViewById(R.id.item_content);
+		deleteView = findViewById(R.id.delete_content);
 		
-		mainView.layout(0, 0, width, height);
-		
-		// Get deleteView's width
-		additionalView.measure(0, MeasureSpec.makeMeasureSpec(getHeight(), MeasureSpec.EXACTLY));
-		mWidth = additionalView.getMeasuredWidth();
-		if (LogUtil.IS_LOG) LogUtil.d(TAG, "[onLayout] mWidht=" + mWidth + ", mHeight=" + additionalView.getMeasuredHeight());
-		additionalView.layout(width, 0, width + mWidth, bottom);
-		additionalView.setOnClickListener(new View.OnClickListener() {
+		deleteView.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -90,26 +106,6 @@ public class SlideLeftableView extends LinearLayout {
 			}
 			
 		});
-		
-	}
-	
-	@Override
-	protected void onFinishInflate() {
-		super.onFinishInflate();
-		
-//		baseInfoView = findViewById(R.id.item_content);
-//		deleteView = findViewById(R.id.delete_content);
-//		
-//		deleteView.setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				if (mOnTapUpListener != null && mExtraData != null) {
-//					mOnTapUpListener.OnRightTailClick(mExtraData.category, mExtraData.id, mExtraData.partitionIndex);
-//				}
-//			}
-//			
-//		});
 	}
 	
 	/**
@@ -229,6 +225,11 @@ public class SlideLeftableView extends LinearLayout {
 			int scrollY = getScrollY();
 			int nextScrollX;
 			
+			if (mOnPreAndPostListener != null) {
+				if (scrollX == 0)
+					mOnPreAndPostListener.OnPreScroll();
+			}
+			
 			if (xDistance > yDistance) {
 				if (xOffset < 0) {
 					// slide from right to left.
@@ -246,6 +247,11 @@ public class SlideLeftableView extends LinearLayout {
 					}
 					
 					scrollTo(nextScrollX, scrollY);
+				}
+				
+				if (mOnPreAndPostListener != null) {
+					if (scrollX >= 0)
+						mOnPreAndPostListener.OnAfterScroll(SlideLeftableView.this);
 				}
 				
 				return true;
@@ -267,6 +273,11 @@ public class SlideLeftableView extends LinearLayout {
 	public interface OnTapUpListener {
 		public void OnContentClick(String category, int id);
 		public void OnRightTailClick(String category, int id, int partitionIndex);
+	}
+	
+	public interface OnPreAndPostListener {
+		public void OnPreScroll();
+		public void OnAfterScroll(SlideLeftableView view);
 	}
 	
 	public static class ExtraData {
