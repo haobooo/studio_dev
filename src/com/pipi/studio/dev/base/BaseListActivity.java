@@ -3,6 +3,14 @@ package com.pipi.studio.dev.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ListActivity;
+import android.content.ComponentCallbacks2;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+
 import com.pipi.studio.dev.common.Constants;
 import com.pipi.studio.dev.net.AsyncHttpGet;
 import com.pipi.studio.dev.net.AsyncHttpPost;
@@ -10,15 +18,9 @@ import com.pipi.studio.dev.net.BaseRequest;
 import com.pipi.studio.dev.net.DefaultThreadPool;
 import com.pipi.studio.dev.net.utils.CheckNetWorkUtil;
 import com.pipi.studio.dev.net.utils.RequestParameter;
+import com.pipi.studio.dev.util.AsyncImageLoader;
 import com.pipi.studio.dev.util.LogUtil;
 import com.pipi.studio.dev.util.SystemInfoUtils;
-
-import android.app.ListActivity;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 
 public class BaseListActivity extends ListActivity implements ThreadCallBack, OnScrollListener{
 	private static final String TAG = "BaseListActivity";
@@ -179,4 +181,12 @@ public class BaseListActivity extends ListActivity implements ThreadCallBack, On
 	protected void loadMoreDate() {
 		if (LogUtil.IS_LOG) LogUtil.d(TAG, "you SHOULD dine the loadMoreData customly!");
 	}
+	
+	@Override
+    public void onTrimMemory(int level) {
+        if (LogUtil.IS_LOG) LogUtil.d(TAG, "onTrimMemory: " + level);
+        if (level >= ComponentCallbacks2.TRIM_MEMORY_MODERATE) {
+        	AsyncImageLoader.clearImageCache();
+        }
+    }
 }

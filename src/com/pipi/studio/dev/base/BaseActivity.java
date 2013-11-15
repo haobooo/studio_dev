@@ -3,6 +3,17 @@ package com.pipi.studio.dev.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ComponentCallbacks2;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.pipi.studio.dev.R;
 import com.pipi.studio.dev.common.Constants;
 import com.pipi.studio.dev.net.AsyncHttpGet;
@@ -13,18 +24,9 @@ import com.pipi.studio.dev.net.WebService;
 import com.pipi.studio.dev.net.utils.CheckNetWorkUtil;
 import com.pipi.studio.dev.net.utils.RequestParameter;
 import com.pipi.studio.dev.net.utils.StringUtil;
+import com.pipi.studio.dev.util.AsyncImageLoader;
 import com.pipi.studio.dev.util.LogUtil;
 import com.pipi.studio.dev.util.SystemInfoUtils;
-
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class BaseActivity extends FragmentActivity implements ThreadCallBack{
 	private static final String TAG = BaseActivity.class.getSimpleName();
@@ -355,6 +357,12 @@ public class BaseActivity extends FragmentActivity implements ThreadCallBack{
 		
 	}
 	
-	
+	@Override
+    public void onTrimMemory(int level) {
+        if (LogUtil.IS_LOG) LogUtil.d(TAG, "onTrimMemory: " + level);
+        if (level >= ComponentCallbacks2.TRIM_MEMORY_MODERATE) {
+        	AsyncImageLoader.clearImageCache();
+        }
+    }
 	
 }
